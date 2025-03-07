@@ -1,0 +1,43 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+class Interp:
+    """Interpolates"""
+
+    def __init__(self, t_max, Nt):
+        """Initialize constants"""
+        self.t_max = t_max
+        self.Nt = Nt
+
+    def interpolate(self, t_non_uniform, u_non_uniform):
+        """Piecewise linear interpolation"""
+
+        t_uniform = np.linspace(0.0, self.t_max, self.Nt)
+        u_interp = np.interp(t_uniform, t_non_uniform, u_non_uniform)
+
+        return u_interp
+
+# Create an instance of the Interp class
+t_max = 10
+Nt = 100
+interpolator = Interp(t_max, Nt)
+
+# Example non-uniform data
+t_non_uniform = np.array([0, 1.5, 3.0, 5.0, 7.5, 10.0])
+u_non_uniform = np.array([0, 0.5, 1.0, 0.75, 0.25, 0])
+
+# Perform the interpolation
+u_interp = interpolator.interpolate(t_non_uniform, u_non_uniform)
+
+# Print interpolated values
+print(u_interp)
+
+# Uniform time grid for plotting
+t_uniform = np.linspace(0.0, t_max, Nt)
+
+# Plot the non-uniform data and the interpolated data
+plt.plot(t_non_uniform, u_non_uniform, 'o', label='Non-uniform data')
+plt.plot(t_uniform, u_interp, '-', label='Interpolated data')
+plt.legend()
+plt.show()
+
